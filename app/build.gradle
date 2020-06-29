@@ -72,4 +72,12 @@ dependencies {
     def retrofit_version = "2.5.0"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    //rxJava
+    def rx_java_version = '2.1.1'
+    implementation "io.reactivex.rxjava2:rxjava:$rx_java_version"
+
+    //rx-retrofit call adapter
+    def rx_call_adapter_version = '2.5.0'
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rx_call_adapter_version"
 }
