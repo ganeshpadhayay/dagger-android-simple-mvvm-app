@@ -33,6 +33,7 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
                     }
                     AuthResource.AuthStatus.NOT_AUTHENTICATED -> {
                         navLoginScreen()
+                        finish()
                     }
                 }
             }

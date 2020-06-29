@@ -64,6 +64,7 @@ class AuthActivity : DaggerAppCompatActivity() {
                         showProgressBar(false)
                         Log.d(TAG, "onChanged: LOGIN SUCCESS: " + userAuthResource.data?.email)
                         onLoginSuccess(userAuthResource.data)
+                        finish()
                     }
                     AuthStatus.ERROR -> {
                         Log.e(TAG, "onChanged: " + userAuthResource.message)
