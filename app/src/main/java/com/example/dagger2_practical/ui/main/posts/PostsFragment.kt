@@ -36,6 +36,7 @@ class PostsFragment : DaggerFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        iniRecyclerView()
         postsViewModel = ViewModelProviders.of(this, viewModelProviderFactory).get(PostsViewModel::class.java)
         subscribeObservers()
     }
