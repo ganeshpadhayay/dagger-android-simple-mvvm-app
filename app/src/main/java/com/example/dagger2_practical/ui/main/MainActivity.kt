@@ -6,7 +6,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import com.example.dagger2_practical.BaseActivity
 import com.example.dagger2_practical.R
-import com.example.dagger2_practical.ui.main.profile.ProfileFragment
+import com.example.dagger2_practical.ui.main.posts.PostsFragment
 
 class MainActivity : BaseActivity() {
 
@@ -17,7 +17,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun inflateFragment() {
-        supportFragmentManager.beginTransaction().replace(R.id.main_container, ProfileFragment()).commitAllowingStateLoss()
+        supportFragmentManager.beginTransaction().replace(R.id.main_container, PostsFragment()).commitAllowingStateLoss()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
