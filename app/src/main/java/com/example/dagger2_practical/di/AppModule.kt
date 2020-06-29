@@ -18,45 +18,27 @@ import javax.inject.Singleton
 /***
  * We keep our dependencies here and then through Components(Servers) they are served to different clients
  *
- * Put all your app level dependencies here like Retrofit, DB, SharedPrefs, ImageLoader(Glide)
+ * Put all your app level dependencies here like Retrofit, DBManager, SessionManager, NetworkChangeManager, SharedPrefs, ImageLoader(Glide)
  *
  * Using static(Companions) is preferred as Dagger can internally call these without creating an object of this class
  */
-@Module
-class AppModule {
+@Module class AppModule {
 
     companion object {
-        @Singleton
-        @Provides
-        fun provideRequestOptions(): RequestOptions {
-            return RequestOptions
-                .placeholderOf(R.drawable.white_background)
-                .error(R.drawable.white_background)
+        @Singleton @Provides fun provideRequestOptions(): RequestOptions {
+            return RequestOptions.placeholderOf(R.drawable.white_background).error(R.drawable.white_background)
         }
 
-        @Singleton
-        @Provides
-        fun provideGlideInstance(
-            application: Application,
-            requestOptions: RequestOptions
-        ): RequestManager {
+        @Singleton @Provides fun provideGlideInstance(application: Application, requestOptions: RequestOptions): RequestManager {
             return Glide.with(application).setDefaultRequestOptions(requestOptions)
         }
 
-        @Singleton
-        @Provides
-        fun provideAppDrawable(application: Application): Drawable {
+        @Singleton @Provides fun provideAppDrawable(application: Application): Drawable {
             return ContextCompat.getDrawable(application, R.drawable.logo)!!
         }
 
-        @Singleton
-        @Provides
-        fun provideRetrofitInstance(): Retrofit {
-            return Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
+        @Singleton @Provides fun provideRetrofitInstance(): Retrofit {
+            return Retrofit.Builder().baseUrl(BASE_URL).addCallAdapterFactory(RxJava2CallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create()).build()
         }
     }
 
