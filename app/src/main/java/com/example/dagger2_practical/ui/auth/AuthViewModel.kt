@@ -15,21 +15,28 @@ class AuthViewModel @Inject constructor(var authApi: AuthApi) : ViewModel() {
         private const val TAG = "AuthViewModel"
     }
 
-    private val authUser: MediatorLiveData<User> = MediatorLiveData()
+    private val authUser: MediatorLiveData<AuthResource<User>> = MediatorLiveData()
 
     fun authenticateWithId(userId: Int) {
-        val source: LiveData<User> = LiveDataReactiveStreams.fromPublisher(
-            authApi.getUser(userId).subscribeOn(
-                Schedulers.io()
-            )
-        )
+        authUser.value = AuthResource.loading(null)
+
+        val source = LiveDataReactiveStreams.fromPublisher(authApi.getUser(userId).onErrorReturn {
+            val errorUser = User()
+            errorUser.id = -1
+            errorUser
+        }.map {
+            if (it.id === -1) {
+                AuthResource.error("Could not authenticate", null)
+            } else AuthResource.authenticated(it)
+        }.subscribeOn(Schedulers.io()))
+
         authUser.addSource(source) {
-            authUser.value = it
+            authUser.value = it as AuthResource<User>?
             authUser.removeSource(source)
         }
     }
 
-    fun observeUser(): LiveData<User> {
+    fun observeUser(): LiveData<AuthResource<User>> {
         return authUser
     }
 }

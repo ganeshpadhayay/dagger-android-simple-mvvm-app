@@ -4,14 +4,18 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.RequestManager
 import com.example.dagger2_practical.R
+import com.example.dagger2_practical.ui.auth.AuthResource.AuthStatus
 import com.example.dagger2_practical.viewmodels.ViewModelProviderFactory
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_auth.*
 import javax.inject.Inject
+
 
 class AuthActivity : DaggerAppCompatActivity() {
 
@@ -21,14 +25,11 @@ class AuthActivity : DaggerAppCompatActivity() {
 
     private lateinit var authViewModel: AuthViewModel
 
-    @Inject
-    lateinit var viewModelProviderFactory: ViewModelProviderFactory
+    @Inject lateinit var viewModelProviderFactory: ViewModelProviderFactory
 
-    @Inject
-    lateinit var logo: Drawable
+    @Inject lateinit var logo: Drawable
 
-    @Inject
-    lateinit var requestManager: RequestManager
+    @Inject lateinit var requestManager: RequestManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,14 +51,39 @@ class AuthActivity : DaggerAppCompatActivity() {
     }
 
     private fun subscribeObservers() {
-        authViewModel.observeUser().observe(this, Observer {
-            if (it != null) {
-                Log.d(TAG, "subscribeObservers: ${it.email}")
+        authViewModel.observeUser().observe(this, Observer { userAuthResource ->
+            if (userAuthResource != null) {
+                when (userAuthResource.status) {
+                    AuthStatus.LOADING -> {
+                        showProgressBar(true)
+                    }
+                    AuthStatus.AUTHENTICATED -> {
+                        showProgressBar(false)
+                        Log.d(TAG, "onChanged: LOGIN SUCCESS: " + userAuthResource.data?.email)
+                    }
+                    AuthStatus.ERROR -> {
+                        Log.e(TAG, "onChanged: " + userAuthResource.message)
+                        showProgressBar(false)
+                        Toast.makeText(this@AuthActivity, """${userAuthResource.message}Did you enter a number between 0 and 10?""".trimIndent(), Toast.LENGTH_SHORT).show()
+                    }
+                    AuthStatus.NOT_AUTHENTICATED -> {
+                        showProgressBar(false)
+                    }
+                }
             }
         })
     }
 
+
     private fun setLogo() {
         requestManager.load(logo).into(login_logo)
+    }
+
+    private fun showProgressBar(isVisible: Boolean) {
+        if (isVisible) {
+            progress_bar.visibility = View.VISIBLE
+        } else {
+            progress_bar.visibility = View.GONE
+        }
     }
 }
