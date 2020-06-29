@@ -12,7 +12,7 @@ import dagger.android.support.AndroidSupportInjectionModule
  * In general, the components are servers and serve dependencies and activity/fragments are clients who consume these dependencies
  * If we have SubComponents in the system then SubComponents can also act as clients
  */
-@Component(modules = [AndroidSupportInjectionModule::class])
+@Component(modules = [AndroidSupportInjectionModule::class, ActivityBuildersModule::class])
 interface AppComponent : AndroidInjector<BaseApplication> {
 
     //we are overriding the Builder so that we can customize it
