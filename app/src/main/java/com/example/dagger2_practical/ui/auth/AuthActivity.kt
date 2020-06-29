@@ -1,5 +1,6 @@
 package com.example.dagger2_practical.ui.auth
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.TextUtils
@@ -10,7 +11,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.RequestManager
 import com.example.dagger2_practical.R
+import com.example.dagger2_practical.models.User
 import com.example.dagger2_practical.ui.auth.AuthResource.AuthStatus
+import com.example.dagger2_practical.ui.main.MainActivity
 import com.example.dagger2_practical.viewmodels.ViewModelProviderFactory
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_auth.*
@@ -60,6 +63,7 @@ class AuthActivity : DaggerAppCompatActivity() {
                     AuthStatus.AUTHENTICATED -> {
                         showProgressBar(false)
                         Log.d(TAG, "onChanged: LOGIN SUCCESS: " + userAuthResource.data?.email)
+                        onLoginSuccess(userAuthResource.data)
                     }
                     AuthStatus.ERROR -> {
                         Log.e(TAG, "onChanged: " + userAuthResource.message)
@@ -74,6 +78,9 @@ class AuthActivity : DaggerAppCompatActivity() {
         })
     }
 
+    private fun onLoginSuccess(data: User?) {
+        startActivity(Intent(this, MainActivity::class.java))
+    }
 
     private fun setLogo() {
         requestManager.load(logo).into(login_logo)
