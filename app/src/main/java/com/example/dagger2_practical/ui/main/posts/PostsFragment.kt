@@ -1,9 +1,11 @@
 package com.example.dagger2_practical.ui.main.posts
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.dagger2_practical.R
 import com.example.dagger2_practical.viewmodels.ViewModelProviderFactory
@@ -31,7 +33,10 @@ class PostsFragment : DaggerFragment() {
     }
 
     private fun subscribeObservers() {
-
+        postsViewModel.observePosts().removeObservers(viewLifecycleOwner)
+        postsViewModel.observePosts().observe(viewLifecycleOwner, Observer {
+            Log.d(TAG, "subscribeObservers: $it")
+        })
     }
 
 
