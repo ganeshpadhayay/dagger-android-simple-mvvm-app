@@ -14,7 +14,12 @@ import javax.inject.Singleton
  * If we have SubComponents in the system then SubComponents can also act as clients
  */
 @Singleton
-@Component(modules = [AndroidSupportInjectionModule::class, ActivityBuildersModule::class, AppModule::class])
+@Component(
+    modules = [AndroidSupportInjectionModule::class,
+        ActivityBuildersModule::class,
+        AppModule::class,
+        ViewModelFactoryModule::class]
+)
 interface AppComponent : AndroidInjector<BaseApplication> {
 
     //we are overriding the Builder so that we can customize it
