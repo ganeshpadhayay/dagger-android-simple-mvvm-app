@@ -10,6 +10,10 @@ class AuthActivity : DaggerAppCompatActivity() {
     @Inject
     lateinit var text: String
 
+    @JvmField
+    @Inject
+    var isAppNull: Boolean = false
+
     companion object {
         private const val TAG = "AuthActivity"
     }
@@ -19,6 +23,7 @@ class AuthActivity : DaggerAppCompatActivity() {
         setContentView(R.layout.activity_auth)
 
         Log.d(TAG, "onCreate: $text")
+        Log.d(TAG, "onCreate: $isAppNull")
     }
 
 
