@@ -14,7 +14,8 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
         private const val TAG = "BaseActivity"
     }
 
-    @Inject lateinit var sessionManager: SessionManager
+    @Inject
+    lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

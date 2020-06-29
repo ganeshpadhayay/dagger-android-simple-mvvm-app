@@ -18,6 +18,7 @@ import com.example.dagger2_practical.viewmodels.ViewModelProviderFactory
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_auth.*
 import javax.inject.Inject
+import javax.inject.Named
 
 
 class AuthActivity : DaggerAppCompatActivity() {
@@ -28,11 +29,23 @@ class AuthActivity : DaggerAppCompatActivity() {
 
     private lateinit var authViewModel: AuthViewModel
 
-    @Inject lateinit var viewModelProviderFactory: ViewModelProviderFactory
+    @Inject
+    lateinit var viewModelProviderFactory: ViewModelProviderFactory
 
-    @Inject lateinit var logo: Drawable
+    @Inject
+    lateinit var logo: Drawable
 
-    @Inject lateinit var requestManager: RequestManager
+    @Inject
+    lateinit var requestManager: RequestManager
+
+    @Inject
+    @Named("app-user")
+    lateinit var appUser: User
+
+    @Inject
+    @Named("auth-user")
+    lateinit var authUser: User
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +57,10 @@ class AuthActivity : DaggerAppCompatActivity() {
         login_button.setOnClickListener {
             attemptLogin()
         }
+
+        //small demo to distinguish between scopes
+        Log.d(TAG, "onCreate: app user: $appUser")
+        Log.d(TAG, "onCreate: auth user: $authUser")
     }
 
     private fun attemptLogin() {

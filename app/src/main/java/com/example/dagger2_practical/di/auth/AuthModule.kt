@@ -1,9 +1,12 @@
 package com.example.dagger2_practical.di.auth
 
+import com.example.dagger2_practical.models.User
 import com.example.dagger2_practical.network.auth.AuthApi
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
+import java.util.*
+import javax.inject.Named
 
 @Module
 class AuthModule {
@@ -13,9 +16,17 @@ class AuthModule {
      * and using that to create our local dependency for local AuthSubComponent
      */
     companion object {
+        @AuthScope
         @Provides
         fun provideAuthApi(retrofit: Retrofit): AuthApi {
             return retrofit.create(AuthApi::class.java)
+        }
+
+        @AuthScope
+        @Provides
+        @Named("auth-user")
+        fun provideAuthUser(): User {
+            return User(Random().nextInt(10000), "", "", "")
         }
     }
 

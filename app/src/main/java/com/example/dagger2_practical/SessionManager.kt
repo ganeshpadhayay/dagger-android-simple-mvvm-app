@@ -8,7 +8,8 @@ import com.example.dagger2_practical.ui.auth.AuthResource
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton class SessionManager @Inject constructor() {
+@Singleton
+class SessionManager @Inject constructor() {
 
     companion object {
         private const val TAG = "SessionManager"
@@ -29,7 +30,7 @@ import javax.inject.Singleton
     }
 
     fun logOut() {
-        Log.d(TAG, "logOut: logging out...")
+        Log.d(TAG, "log Out: logging out...")
         cachedUser.value = AuthResource.logout()
     }
 
