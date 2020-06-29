@@ -1,46 +1,35 @@
 package com.example.dagger2_practical.ui.auth
 
-import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.LiveDataReactiveStreams
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import com.example.dagger2_practical.models.User
 import com.example.dagger2_practical.network.auth.AuthApi
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class AuthViewModel @Inject constructor(authApi: AuthApi) : ViewModel() {
+class AuthViewModel @Inject constructor(var authApi: AuthApi) : ViewModel() {
 
     companion object {
         private const val TAG = "AuthViewModel"
     }
 
-    init {
-        Log.d(TAG, "AuthViewModel: view model is injected")
+    private val authUser: MediatorLiveData<User> = MediatorLiveData()
 
-        if (authApi == null) {
-            Log.d(TAG, "authApi is null")
-        } else {
-            Log.d(TAG, "authApi is not null")
+    fun authenticateWithId(userId: Int) {
+        val source: LiveData<User> = LiveDataReactiveStreams.fromPublisher(
+            authApi.getUser(userId).subscribeOn(
+                Schedulers.io()
+            )
+        )
+        authUser.addSource(source) {
+            authUser.value = it
+            authUser.removeSource(source)
         }
+    }
 
-        authApi.getUser(1)
-            .toObservable()
-            .subscribeOn(Schedulers.io())
-            .subscribe(object : Observer<User> {
-                override fun onComplete() {
-                }
-
-                override fun onSubscribe(d: Disposable) {
-                }
-
-                override fun onNext(user: User) {
-                    Log.d(TAG, "onNext: ${user.email}")
-                }
-
-                override fun onError(e: Throwable) {
-                    Log.d(TAG, "onNext: ${e.message}")
-                }
-            })
+    fun observeUser(): LiveData<User> {
+        return authUser
     }
 }
