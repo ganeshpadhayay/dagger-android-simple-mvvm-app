@@ -3,6 +3,7 @@ package com.example.dagger_android_practical.di
 import android.app.Application
 import com.example.dagger_android_practical.BaseApplication
 import com.example.dagger_android_practical.SessionManager
+import com.example.dagger_android_practical.di.viewmodel.ViewModelFactoryModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector

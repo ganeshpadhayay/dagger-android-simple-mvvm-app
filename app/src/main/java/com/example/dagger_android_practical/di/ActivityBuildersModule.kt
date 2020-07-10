@@ -2,11 +2,11 @@ package com.example.dagger_android_practical.di
 
 import com.example.dagger_android_practical.di.auth.AuthModule
 import com.example.dagger_android_practical.di.auth.AuthScope
-import com.example.dagger_android_practical.di.auth.AuthViewModelModule
+import com.example.dagger_android_practical.di.viewmodel.AuthViewModelModule
 import com.example.dagger_android_practical.di.main.MainFragmentBuildersModule
 import com.example.dagger_android_practical.di.main.MainModule
 import com.example.dagger_android_practical.di.main.MainScope
-import com.example.dagger_android_practical.di.main.MainViewModelsModule
+import com.example.dagger_android_practical.di.viewmodel.MainViewModelsModule
 import com.example.dagger_android_practical.ui.auth.AuthActivity
 import com.example.dagger_android_practical.ui.main.MainActivity
 import dagger.Module
